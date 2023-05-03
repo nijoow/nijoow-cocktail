@@ -3,23 +3,26 @@
 import React, { useEffect, useState } from "react";
 import { useGetFilterListQuery } from "@/services/api";
 import { FilterType } from "@/types/types";
-import Autocomplete from "@/components/AutoComplete";
+import AutoComplete from "@/components/AutoComplete";
+import { useRecoilState } from "recoil";
+import { filterAtom, selectedValueAtom } from "@/recoil/atom";
 
 const Tab = ({
   type,
-  filter,
-  setFilter,
+  setValue,
 }: {
   type: FilterType;
-  filter: FilterType;
-  setFilter: React.Dispatch<React.SetStateAction<FilterType>>;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
 }) => {
+  const [filter, setFilter] = useRecoilState(filterAtom);
+
   return (
     <button
       type="button"
       className={`tab tab-lifted ${type === filter ? "tab-active" : ""}`}
       onClick={() => {
         setFilter(type);
+        setValue("");
       }}
     >
       {type}
@@ -28,59 +31,63 @@ const Tab = ({
 };
 
 const Filter = () => {
-  const [filter, setFilter] = useState<FilterType>("Categories");
-  const [value, setValue] = useState("");
-
+  const [filter] = useRecoilState(filterAtom);
+  const [, setSelectedValue] = useRecoilState(selectedValueAtom);
+  const [value, setValue] = useState<string>("");
   const { data } = useGetFilterListQuery(filter);
 
-  useEffect(() => {
-    setValue("");
-  }, [filter]);
   return (
     <>
       <div className="tabs">
-        <Tab type={"Categories"} filter={filter} setFilter={setFilter} />
-        <Tab type={"Ingredients"} filter={filter} setFilter={setFilter} />
-        <Tab type={"Alcoholic"} filter={filter} setFilter={setFilter} />
-        <Tab type={"Glasses"} filter={filter} setFilter={setFilter} />
+        <Tab type={"Categories"} setValue={setValue} />
+        <Tab type={"Ingredients"} setValue={setValue} />
+        <Tab type={"Alcoholic"} setValue={setValue} />
+        <Tab type={"Glasses"} setValue={setValue} />
       </div>
-      <div>
+      <div className="flex gap-2">
         {filter === "Categories" && (
-          <Autocomplete
-            value={value}
-            setValue={setValue}
+          <AutoComplete
             options={data?.drinks.map(
               (drink: { strCategory: string }) => drink.strCategory
             )}
+            value={value}
+            setValue={setValue}
           />
         )}
         {filter === "Ingredients" && (
-          <Autocomplete
-            value={value}
-            setValue={setValue}
+          <AutoComplete
             options={data?.drinks.map(
               (drink: { strIngredient1: string }) => drink.strIngredient1
             )}
+            value={value}
+            setValue={setValue}
           />
         )}
         {filter === "Alcoholic" && (
-          <Autocomplete
-            value={value}
-            setValue={setValue}
+          <AutoComplete
             options={data?.drinks.map(
               (drink: { strAlcoholic: string }) => drink.strAlcoholic
             )}
+            value={value}
+            setValue={setValue}
           />
         )}
         {filter === "Glasses" && (
-          <Autocomplete
-            value={value}
-            setValue={setValue}
+          <AutoComplete
             options={data?.drinks?.map(
               (drink: { strGlass: string }) => drink.strGlass
             )}
+            value={value}
+            setValue={setValue}
           />
         )}
+        <button
+          className="btn"
+          type="button"
+          onClick={() => setSelectedValue(value)}
+        >
+          Search
+        </button>
       </div>
     </>
   );
