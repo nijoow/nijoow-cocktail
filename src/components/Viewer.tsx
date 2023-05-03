@@ -22,7 +22,7 @@ const Viewer = () => {
         }) => (
           <div
             key={drink.idDrink}
-            className="col-span-3 card w-full bg-base-100 shadow-xl"
+            className="col-span-6 sm:col-span-4 2xl:col-span-3 card w-full bg-base-100 shadow-xl"
           >
             <figure className="relative w-full h-0 pb-[100%]">
               <Image

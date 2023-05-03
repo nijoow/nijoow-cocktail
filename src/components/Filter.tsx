@@ -19,7 +19,7 @@ const Tab = ({
   return (
     <button
       type="button"
-      className={`tab tab-lifted ${type === filter ? "tab-active" : ""}`}
+      className={`tab tab-lifted w-full ${type === filter ? "tab-active" : ""}`}
       onClick={() => {
         setFilter(type);
         setValue("");
@@ -38,13 +38,13 @@ const Filter = () => {
 
   return (
     <>
-      <div className="tabs">
+      <div className="flex w-full ">
         <Tab type={"Categories"} setValue={setValue} />
         <Tab type={"Ingredients"} setValue={setValue} />
         <Tab type={"Alcoholic"} setValue={setValue} />
         <Tab type={"Glasses"} setValue={setValue} />
       </div>
-      <div className="flex gap-2">
+      <div className="flex ">
         {filter === "Categories" && (
           <AutoComplete
             options={data?.drinks.map(
