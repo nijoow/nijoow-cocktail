@@ -26,14 +26,14 @@ const AutoComplete = ({ options = [], value, setValue }: AutocompleteProps) => {
       <div className="relative">
         <input
           type="text"
-          className="w-full input input-bordered"
+          className="w-full input-sm input-bordered rounded-md"
           value={value}
           onChange={handleInputChange}
           placeholder="search"
           tabIndex={0}
         />
         <button
-          className="btn btn-square btn-outline absolute right-0"
+          className="btn btn-square btn-sm btn-outline absolute right-0"
           type="button"
           onClick={(e) => {
             e.stopPropagation();
@@ -56,7 +56,7 @@ const AutoComplete = ({ options = [], value, setValue }: AutocompleteProps) => {
           </svg>
         </button>
       </div>
-      <div className="flex-col overflow-y-auto rounded-md dropdown-content bg-base-200 top-12 max-h-96">
+      <div className="flex-col overflow-y-auto rounded-md dropdown-content bg-base-200 max-h-96">
         <ul
           className="menu menu-compact "
           style={{ width: ref.current?.clientWidth as number }}

@@ -37,7 +37,7 @@ const Filter = () => {
   const { data } = useGetFilterListQuery(filter);
 
   return (
-    <div className="w-full max-w-xl mx-auto">
+    <div className="w-full max-w-xl mx-auto my-4">
       <div className="flex w-full overflow-auto">
         <Tab type={"Categories"} setValue={setValue} />
         <Tab type={"Ingredients"} setValue={setValue} />

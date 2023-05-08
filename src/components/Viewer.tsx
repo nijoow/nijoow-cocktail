@@ -13,7 +13,7 @@ const Viewer = () => {
   const { data } = useGetFilteredItemListQuery(filter, selectedValue);
 
   return (
-    <div className="grid grid-cols-12 gap-12 p-24">
+    <div className="grid grid-cols-12 gap-12 py-12 px-24 overflow-auto">
       {(data?.drinks || []).map(
         (drink: {
           idDrink: string;
