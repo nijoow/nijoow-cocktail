@@ -37,14 +37,14 @@ const Filter = () => {
   const { data } = useGetFilterListQuery(filter);
 
   return (
-    <>
-      <div className="flex w-full ">
+    <div className="w-full max-w-xl mx-auto">
+      <div className="flex w-full overflow-auto">
         <Tab type={"Categories"} setValue={setValue} />
         <Tab type={"Ingredients"} setValue={setValue} />
         <Tab type={"Alcoholic"} setValue={setValue} />
         <Tab type={"Glasses"} setValue={setValue} />
       </div>
-      <div className="flex ">
+      <div className="flex w-full h-8">
         {filter === "Categories" && (
           <AutoComplete
             options={data?.drinks.map(
@@ -82,14 +82,14 @@ const Filter = () => {
           />
         )}
         <button
-          className="btn"
+          className="btn btn-sm "
           type="button"
           onClick={() => setSelectedValue(value)}
         >
           Search
         </button>
       </div>
-    </>
+    </div>
   );
 };
 
