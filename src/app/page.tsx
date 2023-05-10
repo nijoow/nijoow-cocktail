@@ -1,6 +1,4 @@
 import Filter from "@/components/Filter";
-import Sidebar from "@/components/Sidebar";
-import SidebarButton from "@/components/SidebarButton";
 import Viewer from "@/components/Viewer";
 
 export default async function Home() {
