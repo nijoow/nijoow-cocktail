@@ -7,28 +7,61 @@ import {
   openFilterAtom,
   selectedValueAtom,
 } from "@/recoil/atom";
-import { useGetFilteredItemListQuery } from "@/services/api";
+import {
+  getFilteredItemListApi,
+  useGetFilteredItemListQuery,
+  useGetIngredientsQuerys,
+} from "@/services/api";
 import { useRecoilState } from "recoil";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
+function checkForMatchingIdDrink(arr: any[], targetId: string) {
+  for (let i = 0; i < arr.length; i++) {
+    const matchingElement = arr[i]?.find(
+      (item: any) => item.idDrink === targetId
+    );
+    if (matchingElement) {
+      return true;
+    }
+  }
+  return false;
+}
+
 const Viewer = () => {
-  const [open, setOpen] = useRecoilState(openFilterAtom);
+  const [cocktails, setCocktails] = useState([]);
 
-  const [filter] = useRecoilState(filterAtom);
-  const [selectedValue] = useRecoilState(selectedValueAtom);
+  const [category] = useRecoilState(categoryAtom);
+  const [ingredients] = useRecoilState(ingredientsAtom);
 
-  const [category, setCategory] = useRecoilState(categoryAtom);
-  const [ingredients, setIngredients] = useRecoilState(ingredientsAtom);
+  const { data } = useGetFilteredItemListQuery("Categories", category);
+  const queries = ingredients.map((ingredient) => ({
+    queryKey: ingredient,
+    queryFn: () => getFilteredItemListApi("Ingredients", ingredient),
+  }));
 
-  const { data } = useGetFilteredItemListQuery(filter, category);
+  const ingredientsCocktails = useGetIngredientsQuerys(queries).map(
+    ({ data }: any) => data?.drinks
+  );
+
+  useEffect(() => {
+    if (!data) return;
+    if (ingredientsCocktails.length === 0) {
+      setCocktails(data?.drinks);
+      return;
+    }
+    const nextCocktails = data?.drinks.filter((drink: any) =>
+      checkForMatchingIdDrink(ingredientsCocktails, drink.idDrink)
+    );
+    setCocktails(nextCocktails);
+  }, [data, ingredients]);
 
   return (
     <div
       className={`grid grid-cols-12 gap-12 py-12 px-24 overflow-auto lg:ml-[448px]
       }`}
     >
-      {(data?.drinks || []).map(
+      {cocktails.map(
         (drink: {
           idDrink: string;
           strDrink: string;

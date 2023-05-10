@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useQuery } from "react-query";
+import { useQueries, useQuery } from "react-query";
 import { FilterEnum, FilterType } from "@/types/types";
 
 const getFilterListApi = async (type: FilterType) => {
@@ -16,7 +16,10 @@ export const useGetFilterListQuery = (type: FilterType) => {
   return { data, isLoading };
 };
 
-const getFilteredItemListApi = async (type: FilterType, value: string) => {
+export const getFilteredItemListApi = async (
+  type: FilterType,
+  value: string
+) => {
   const { data } = await axios.get(
     `https://www.thecocktaildb.com/api/json/v1/1/filter.php?${FilterEnum[type]}=${value}`
   );
@@ -31,4 +34,9 @@ export const useGetFilteredItemListQuery = (
     getFilteredItemListApi(type, value)
   );
   return { data, isLoading };
+};
+
+export const useGetIngredientsQuerys = (queries: any[]) => {
+  const result = useQueries(queries);
+  return result;
 };
