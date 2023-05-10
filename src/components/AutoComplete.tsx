@@ -15,7 +15,11 @@ const AutoComplete = ({ options = [], value, setValue }: AutocompleteProps) => {
   const [filteredOptions, setFilteredOptions] = useState<string[]>(options);
 
   useEffect(() => {
-    setFilteredOptions(options.filter((option) => option.includes(text)));
+    setFilteredOptions(
+      options.filter((option) =>
+        option.toLowerCase().includes(text.toLowerCase())
+      )
+    );
   }, [text, options]);
 
   useEffect(() => {
@@ -35,7 +39,7 @@ const AutoComplete = ({ options = [], value, setValue }: AutocompleteProps) => {
 
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValue(event.target.value);
+      setText(event.target.value);
     },
     []
   );
