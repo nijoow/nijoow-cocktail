@@ -1,19 +1,33 @@
 "use client";
 
-import { filterAtom, selectedValueAtom } from "@/recoil/atom";
+import {
+  categoryAtom,
+  filterAtom,
+  ingredientsAtom,
+  openFilterAtom,
+  selectedValueAtom,
+} from "@/recoil/atom";
 import { useGetFilteredItemListQuery } from "@/services/api";
 import { useRecoilState } from "recoil";
 import React from "react";
 import Image from "next/image";
 
 const Viewer = () => {
+  const [open, setOpen] = useRecoilState(openFilterAtom);
+
   const [filter] = useRecoilState(filterAtom);
   const [selectedValue] = useRecoilState(selectedValueAtom);
 
-  const { data } = useGetFilteredItemListQuery(filter, selectedValue);
+  const [category, setCategory] = useRecoilState(categoryAtom);
+  const [ingredients, setIngredients] = useRecoilState(ingredientsAtom);
+
+  const { data } = useGetFilteredItemListQuery(filter, category);
 
   return (
-    <div className="grid grid-cols-12 gap-12 py-12 px-24 overflow-auto">
+    <div
+      className={`grid grid-cols-12 gap-12 py-12 px-24 overflow-auto lg:ml-[448px]
+      }`}
+    >
       {(data?.drinks || []).map(
         (drink: {
           idDrink: string;
