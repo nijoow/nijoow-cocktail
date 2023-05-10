@@ -5,91 +5,78 @@ import { useGetFilterListQuery } from "@/services/api";
 import { FilterType } from "@/types/types";
 import AutoComplete from "@/components/AutoComplete";
 import { useRecoilState } from "recoil";
-import { filterAtom, selectedValueAtom } from "@/recoil/atom";
-
-const Tab = ({
-  type,
-  setValue,
-}: {
-  type: FilterType;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
-}) => {
-  const [filter, setFilter] = useRecoilState(filterAtom);
-
-  return (
-    <button
-      type="button"
-      className={`tab tab-lifted w-full ${type === filter ? "tab-active" : ""}`}
-      onClick={() => {
-        setFilter(type);
-        setValue("");
-      }}
-    >
-      {type}
-    </button>
-  );
-};
+import { categoryAtom, ingredientsAtom, openFilterAtom } from "@/recoil/atom";
+import CloseIcon from "./CloseIcon";
 
 const Filter = () => {
-  const [filter] = useRecoilState(filterAtom);
-  const [, setSelectedValue] = useRecoilState(selectedValueAtom);
-  const [value, setValue] = useState<string>("");
-  const { data } = useGetFilterListQuery(filter);
+  const { data: categoiresData } = useGetFilterListQuery("Categories");
+  const { data: ingredientsData } = useGetFilterListQuery("Ingredients");
+  const [category, setCategory] = useRecoilState(categoryAtom);
+  const [ingredients, setIngredients] = useRecoilState(ingredientsAtom);
+
+  const [open, setOpen] = useRecoilState(openFilterAtom);
 
   return (
-    <div className="w-full max-w-xl mx-auto my-4">
-      <div className="flex w-full overflow-auto">
-        <Tab type={"Categories"} setValue={setValue} />
-        <Tab type={"Ingredients"} setValue={setValue} />
-        <Tab type={"Alcoholic"} setValue={setValue} />
-        <Tab type={"Glasses"} setValue={setValue} />
+    <>
+      <button
+        className="btn btn-sm m-4 self-start"
+        type="button"
+        onClick={() => setOpen(!open)}
+      >
+        Filter
+      </button>
+      <div
+        className={`z-50 w-full max-w-md gap-2 bg-gray-950 h-full flex flex-col p-4 fixed top-0 left-0 mx-auto transition-all duration-500 ${
+          open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        }`}
+      >
+        <div className="w-full flex justify-between items-center">
+          <span className="text-xl">Filter</span>
+          <button
+            className="visible lg:hidden flex items-center justify-center "
+            type="button"
+            onClick={() => setOpen(false)}
+          >
+            <CloseIcon className={"h-8 w-8 stroke-whte "} />
+          </button>
+        </div>
+        <div className="h-[1px] w-full bg-white" />
+        <span className="mt-4">Categories</span>
+        <AutoComplete
+          options={categoiresData?.drinks.map(
+            (drink: { strCategory: string }) => drink.strCategory
+          )}
+          value={category}
+          setValue={setCategory}
+        />
+        <span className="mt-4">Ingredients</span>
+        <AutoComplete
+          options={ingredientsData?.drinks.map(
+            (drink: { strIngredient1: string }) => drink.strIngredient1
+          )}
+          value={ingredients}
+          setValue={setIngredients}
+        />
+        <div className="flex flex-col gap-2 ">
+          {ingredients.map((ingredient: string) => (
+            <div key={ingredient} className="flex items-center">
+              <button
+                className="flex items-center justify-center"
+                type="button"
+                onClick={() =>
+                  setIngredients(
+                    ingredients.filter((item) => item !== ingredient)
+                  )
+                }
+              >
+                <CloseIcon className={"h-5 w-5 stroke-red-600 "} />
+              </button>
+              <span>{ingredient}</span>
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="flex w-full h-8">
-        {filter === "Categories" && (
-          <AutoComplete
-            options={data?.drinks.map(
-              (drink: { strCategory: string }) => drink.strCategory
-            )}
-            value={value}
-            setValue={setValue}
-          />
-        )}
-        {filter === "Ingredients" && (
-          <AutoComplete
-            options={data?.drinks.map(
-              (drink: { strIngredient1: string }) => drink.strIngredient1
-            )}
-            value={value}
-            setValue={setValue}
-          />
-        )}
-        {filter === "Alcoholic" && (
-          <AutoComplete
-            options={data?.drinks.map(
-              (drink: { strAlcoholic: string }) => drink.strAlcoholic
-            )}
-            value={value}
-            setValue={setValue}
-          />
-        )}
-        {filter === "Glasses" && (
-          <AutoComplete
-            options={data?.drinks?.map(
-              (drink: { strGlass: string }) => drink.strGlass
-            )}
-            value={value}
-            setValue={setValue}
-          />
-        )}
-        <button
-          className="btn btn-sm "
-          type="button"
-          onClick={() => setSelectedValue(value)}
-        >
-          Search
-        </button>
-      </div>
-    </div>
+    </>
   );
 };
 
