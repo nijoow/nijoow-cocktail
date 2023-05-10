@@ -42,21 +42,27 @@ const Filter = () => {
         </div>
         <div className="h-[1px] w-full bg-white/30" />
         <span className="mt-2">Categories</span>
-        <AutoComplete
-          options={categoiresData?.drinks.map(
-            (drink: { strCategory: string }) => drink.strCategory
-          )}
-          value={category}
-          setValue={setCategory}
-        />
+        {categoiresData && (
+          <AutoComplete
+            key={"Categories"}
+            options={categoiresData.drinks.map(
+              (drink: { strCategory: string }) => drink.strCategory
+            )}
+            value={category}
+            setValue={setCategory}
+          />
+        )}
         <span className="mt-4">Ingredients</span>
-        <AutoComplete
-          options={ingredientsData?.drinks.map(
-            (drink: { strIngredient1: string }) => drink.strIngredient1
-          )}
-          value={ingredients}
-          setValue={setIngredients}
-        />
+        {ingredientsData && (
+          <AutoComplete
+            key={"Ingredients"}
+            options={ingredientsData.drinks.map(
+              (drink: { strIngredient1: string }) => drink.strIngredient1
+            )}
+            value={ingredients}
+            setValue={setIngredients}
+          />
+        )}
         <div className="flex flex-col gap-2 ">
           {ingredients.map((ingredient: string) => (
             <div key={ingredient} className="flex items-center">
