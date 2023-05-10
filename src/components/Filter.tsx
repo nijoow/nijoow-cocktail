@@ -40,8 +40,8 @@ const Filter = () => {
             <CloseIcon className={"h-8 w-8 stroke-whte "} />
           </button>
         </div>
-        <div className="h-[1px] w-full bg-white" />
-        <span className="mt-4">Categories</span>
+        <div className="h-[1px] w-full bg-white/30" />
+        <span className="mt-2">Categories</span>
         <AutoComplete
           options={categoiresData?.drinks.map(
             (drink: { strCategory: string }) => drink.strCategory
