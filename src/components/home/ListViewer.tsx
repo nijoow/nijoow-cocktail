@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  categoryAtom,
-  filterAtom,
-  ingredientsAtom,
-  openFilterAtom,
-  selectedValueAtom,
-} from "@/recoil/atom";
+import { categoryAtom, ingredientsAtom } from "@/recoil/atom";
 import {
   getFilteredItemListApi,
   useGetFilteredItemListQuery,
@@ -15,6 +9,7 @@ import {
 import { useRecoilState } from "recoil";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 function checkForMatchingIdDrink(arr: any[], targetId: string) {
   for (let i = 0; i < arr.length; i++) {
@@ -28,7 +23,7 @@ function checkForMatchingIdDrink(arr: any[], targetId: string) {
   return false;
 }
 
-const Viewer = () => {
+const ListViewer = () => {
   const [cocktails, setCocktails] = useState([]);
 
   const [category] = useRecoilState(categoryAtom);
@@ -58,8 +53,7 @@ const Viewer = () => {
 
   return (
     <div
-      className={`grid grid-cols-12 gap-12 py-12 px-24 overflow-auto lg:ml-[448px]
-      }`}
+      className={` grid grid-cols-12 lg:py-12 px-4 py-4 gap-4 lg:gap-12 lg:px-24 overflow-auto lg:ml-[448px] w-auto`}
     >
       {cocktails.map(
         (drink: {
@@ -67,26 +61,28 @@ const Viewer = () => {
           strDrink: string;
           strDrinkThumb: string;
         }) => (
-          <div
+          <Link
+            href={`/detail/${drink.idDrink}`}
             key={drink.idDrink}
-            className="col-span-6 sm:col-span-4 2xl:col-span-3 card w-full bg-base-100 shadow-xl"
+            className="w-full col-span-12 shadow-xl xs:col-span-6 sm:col-span-4 2xl:col-span-3 card bg-base-100"
           >
             <figure className="relative w-full h-0 pb-[100%]">
               <Image
                 src={drink.strDrinkThumb}
                 alt={drink.strDrink}
                 fill
+                sizes="100%"
                 className="object-cover"
               />
             </figure>
             <div className="card-body">
               <h2 className="card-title">{drink.strDrink}</h2>
             </div>
-          </div>
+          </Link>
         )
       )}
     </div>
   );
 };
 
-export default Viewer;
+export default ListViewer;

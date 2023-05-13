@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useGetFilterListQuery } from "@/services/api";
-import { FilterType } from "@/types/types";
 import AutoComplete from "@/components/AutoComplete";
 import { useRecoilState } from "recoil";
 import { categoryAtom, ingredientsAtom, openFilterAtom } from "@/recoil/atom";
-import CloseIcon from "./CloseIcon";
+import CloseIcon from "../CloseIcon";
 
 const Filter = () => {
   const { data: categoiresData } = useGetFilterListQuery("Categories");
@@ -19,7 +18,7 @@ const Filter = () => {
   return (
     <>
       <button
-        className="btn btn-sm m-4 self-start"
+        className="self-start m-4 btn btn-sm"
         type="button"
         onClick={() => setOpen(!open)}
       >
@@ -30,10 +29,10 @@ const Filter = () => {
           open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
-        <div className="w-full flex justify-between items-center">
+        <div className="flex items-center justify-between w-full">
           <span className="text-xl">Filter</span>
           <button
-            className="visible lg:hidden flex items-center justify-center "
+            className="flex items-center justify-center visible lg:hidden "
             type="button"
             onClick={() => setOpen(false)}
           >
