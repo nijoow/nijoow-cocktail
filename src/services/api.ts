@@ -50,7 +50,7 @@ const getCocktailDetailApi = async (id: string) => {
 
 export const useGetCocktailDetailApi = (id: string) => {
   const { data, isLoading } = useQuery(
-    ["CocktailDetail"],
+    ["CocktailDetail", id],
     () => getCocktailDetailApi(id),
     { refetchOnWindowFocus: true }
   );
