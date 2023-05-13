@@ -15,6 +15,10 @@ const Filter = () => {
 
   const [open, setOpen] = useRecoilState(openFilterAtom);
 
+  const handleClickResetButtion = () => {
+    setCategory("");
+    setIngredients([]);
+  };
   return (
     <>
       <button
@@ -36,7 +40,7 @@ const Filter = () => {
             type="button"
             onClick={() => setOpen(false)}
           >
-            <CloseIcon className={"h-8 w-8 stroke-whte "} />
+            <CloseIcon className={"h-8 w-8 stroke-whte"} />
           </button>
         </div>
         <div className="h-[1px] w-full bg-white/30" />
@@ -81,6 +85,13 @@ const Filter = () => {
             </div>
           ))}
         </div>
+        <button
+          className="mt-auto btn btn-sm"
+          type="button"
+          onClick={handleClickResetButtion}
+        >
+          Reset
+        </button>
       </div>
     </>
   );
