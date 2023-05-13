@@ -26,7 +26,10 @@ const DetailViewer = ({ id }: { id: string }) => {
               src={drink.strDrinkThumb}
               alt={drink.strDrink}
               fill
-              sizes="100%"
+              property="true"
+              sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw"
               className="object-cover"
             />
           </figure>
