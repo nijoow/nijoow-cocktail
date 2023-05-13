@@ -40,3 +40,19 @@ export const useGetIngredientsQuerys = (queries: any[]) => {
   const result = useQueries(queries);
   return result;
 };
+
+const getCocktailDetailApi = async (id: string) => {
+  const { data } = await axios.get(
+    `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`
+  );
+  return data;
+};
+
+export const useGetCocktailDetailApi = (id: string) => {
+  const { data, isLoading } = useQuery(
+    ["CocktailDetail"],
+    () => getCocktailDetailApi(id),
+    { refetchOnWindowFocus: true }
+  );
+  return { data, isLoading };
+};
