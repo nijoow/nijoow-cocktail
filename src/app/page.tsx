@@ -1,11 +1,11 @@
-import Filter from "@/components/Filter";
-import Viewer from "@/components/Viewer";
+import Filter from "@/components/home/Filter";
+import Viewer from "@/components/home/ListViewer";
 
 export default async function Home() {
   return (
-    <main className="w-full h-full max-w-screen max-h-screen flex flex-col relative overflow-hidden">
+    <>
       <Filter />
       <Viewer />
-    </main>
+    </>
   );
 }

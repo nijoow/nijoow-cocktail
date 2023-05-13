@@ -1,5 +1,4 @@
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
-import { SetterOrUpdater } from "recoil";
 import CloseIcon from "./CloseIcon";
 
 type AutocompleteProps = {
@@ -61,7 +60,7 @@ const AutoComplete = ({ options = [], value, setValue }: AutocompleteProps) => {
       <div className="relative flex">
         <input
           type="text"
-          className="w-full py-2 px-4  input-bordered rounded-md"
+          className="w-full px-4 py-2 rounded-md input-bordered"
           value={text}
           onChange={handleInputChange}
           placeholder="search"
@@ -69,7 +68,7 @@ const AutoComplete = ({ options = [], value, setValue }: AutocompleteProps) => {
           onFocus={() => setOpen(true)}
         />
         <button
-          className=" h-10 w-10 flex items-center justify-center rounded-md border transition-all hover:bg-gray-400 border-white absolute right-0"
+          className="absolute right-0 flex items-center justify-center w-10 h-10 transition-all border border-white rounded-md  hover:bg-gray-400"
           type="button"
           onClick={(e) => {
             e.stopPropagation();
@@ -77,11 +76,11 @@ const AutoComplete = ({ options = [], value, setValue }: AutocompleteProps) => {
             setOpen(true);
           }}
         >
-          <CloseIcon className="h-6 w-6 stroke-whte hover:stroke-gray-900 transition-all" />
+          <CloseIcon className="w-6 h-6 transition-all stroke-whte hover:stroke-gray-900" />
         </button>
       </div>
       {open && (
-        <div className="z-30 absolute flex-col overflow-x-hidden overflow-y-auto rounded-md dropdown-content bg-base-200 max-h-96">
+        <div className="absolute z-30 flex-col overflow-x-hidden overflow-y-auto rounded-md dropdown-content bg-base-200 max-h-96">
           <ul
             className="menu menu-compact "
             style={{
