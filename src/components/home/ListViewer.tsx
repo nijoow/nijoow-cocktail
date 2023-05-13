@@ -42,13 +42,17 @@ const ListViewer = () => {
   const filteredCocktail = cocktails.filter((drink: any) =>
     checkForMatchingIdDrink(ingredientsCocktails, drink.idDrink)
   );
+
   useEffect(() => {
-    if (!data) return;
+    if (!data) {
+      setCocktails([]);
+      return;
+    }
 
     setCocktails(data?.drinks);
   }, [data]);
 
-  return (
+  return filteredCocktail.length > 0 ? (
     <div
       className={` grid grid-cols-12 lg:py-12 px-4 py-4 gap-4 lg:gap-12 lg:px-24 overflow-auto lg:ml-[448px] w-auto`}
     >
@@ -80,6 +84,10 @@ const ListViewer = () => {
           </Link>
         )
       )}
+    </div>
+  ) : (
+    <div className="flex items-center justify-center w-auto h-full lg:ml-[448px]">
+      <span>There are no cocktails matching the search filter.</span>
     </div>
   );
 };
