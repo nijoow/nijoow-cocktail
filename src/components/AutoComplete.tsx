@@ -5,9 +5,15 @@ type AutocompleteProps = {
   options: string[];
   value: string | string[];
   setValue: any;
+  disabled?: boolean;
 };
 
-const AutoComplete = ({ options = [], value, setValue }: AutocompleteProps) => {
+const AutoComplete = ({
+  options = [],
+  value,
+  setValue,
+  disabled,
+}: AutocompleteProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [text, setText] = useState<string>(
     typeof value === "string" ? value : ""
@@ -27,6 +33,10 @@ const AutoComplete = ({ options = [], value, setValue }: AutocompleteProps) => {
     document.addEventListener("click", handleClickOutside);
     return () => document.addEventListener("click", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (value.length === 0) setText("");
+  }, [value]);
 
   const handleClickOutside = (e: any) => {
     if (ref.current && !ref.current.contains(e.target)) {
@@ -68,17 +78,19 @@ const AutoComplete = ({ options = [], value, setValue }: AutocompleteProps) => {
           placeholder="search"
           tabIndex={0}
           onFocus={() => setOpen(true)}
+          disabled={disabled}
         />
         <button
-          className="absolute right-0 flex items-center justify-center w-10 h-10 transition-all border border-white rounded-md hover:bg-gray-400"
+          className="absolute right-0 flex items-center justify-center w-10 h-10 transition-all border border-white rounded-md hover:bg-gray-400 group "
           type="button"
+          disabled={disabled}
           onClick={(e) => {
             e.stopPropagation();
             setText("");
             setOpen(true);
           }}
         >
-          <CloseIcon className="w-6 h-6 transition-all stroke-whte hover:stroke-gray-900" />
+          <CloseIcon className="w-6 h-6 transition-all stroke-white group-hover:stroke-gray-900" />
         </button>
       </div>
       {open && (

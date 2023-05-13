@@ -60,6 +60,7 @@ const Filter = () => {
             )}
             value={ingredients}
             setValue={setIngredients}
+            disabled={category === ""}
           />
         )}
         <div className="flex flex-col gap-2 ">
