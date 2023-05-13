@@ -44,11 +44,7 @@ const DetailViewer = ({ id }: { id: string }) => {
             <div className="flex flex-wrap p-2 border border-white rounded-md gap-x-4">
               {array.map((value) => {
                 const ingredient = drink[`strIngredient${value}`];
-                return ingredient ? (
-                  <span key={ingredient}>{ingredient}</span>
-                ) : (
-                  <></>
-                );
+                return ingredient && <span key={ingredient}>{ingredient}</span>;
               })}
             </div>
             <div className="flex flex-col gap-1">
