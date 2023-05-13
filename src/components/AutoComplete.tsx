@@ -9,7 +9,9 @@ type AutocompleteProps = {
 
 const AutoComplete = ({ options = [], value, setValue }: AutocompleteProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [text, setText] = useState<string>("");
+  const [text, setText] = useState<string>(
+    typeof value === "string" ? value : ""
+  );
   const [open, setOpen] = useState(false);
   const [filteredOptions, setFilteredOptions] = useState<string[]>(options);
 
@@ -68,7 +70,7 @@ const AutoComplete = ({ options = [], value, setValue }: AutocompleteProps) => {
           onFocus={() => setOpen(true)}
         />
         <button
-          className="absolute right-0 flex items-center justify-center w-10 h-10 transition-all border border-white rounded-md  hover:bg-gray-400"
+          className="absolute right-0 flex items-center justify-center w-10 h-10 transition-all border border-white rounded-md hover:bg-gray-400"
           type="button"
           onClick={(e) => {
             e.stopPropagation();
