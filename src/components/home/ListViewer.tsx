@@ -12,15 +12,15 @@ import Image from "next/image";
 import Link from "next/link";
 
 function checkForMatchingIdDrink(arr: any[], targetId: string) {
-  for (let i = 0; i < arr.length; i++) {
-    const matchingElement = arr[i]?.find(
-      (item: any) => item.idDrink === targetId
-    );
-    if (matchingElement) {
-      return true;
-    }
-  }
-  return false;
+  if (arr.length === 0) return true;
+
+  return arr.reduce(
+    (isIncluded, targetArr) =>
+      targetArr?.find((item: any) =>
+        !(item.idDrink === targetId) ? false : isIncluded
+      ),
+    true
+  );
 }
 
 const ListViewer = () => {
@@ -39,23 +39,20 @@ const ListViewer = () => {
     ({ data }: any) => data?.drinks
   );
 
+  const filteredCocktail = cocktails.filter((drink: any) =>
+    checkForMatchingIdDrink(ingredientsCocktails, drink.idDrink)
+  );
   useEffect(() => {
     if (!data) return;
-    if (ingredientsCocktails.length === 0) {
-      setCocktails(data?.drinks);
-      return;
-    }
-    const nextCocktails = data?.drinks.filter((drink: any) =>
-      checkForMatchingIdDrink(ingredientsCocktails, drink.idDrink)
-    );
-    setCocktails(nextCocktails);
-  }, [data, ingredients]);
+
+    setCocktails(data?.drinks);
+  }, [data]);
 
   return (
     <div
       className={` grid grid-cols-12 lg:py-12 px-4 py-4 gap-4 lg:gap-12 lg:px-24 overflow-auto lg:ml-[448px] w-auto`}
     >
-      {cocktails.map(
+      {filteredCocktail.map(
         (drink: {
           idDrink: string;
           strDrink: string;

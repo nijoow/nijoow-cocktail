@@ -9,7 +9,6 @@ const array = Array.from(Array(15), (v, i) => i + 1);
 const DetailViewer = ({ id }: { id: string }) => {
   const { data } = useGetCocktailDetailApi(id);
   const drink = data?.drinks[0] || null;
-  console.log(drink);
 
   return (
     <div className="flex justify-center w-full h-full overflow-auto">
