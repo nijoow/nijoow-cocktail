@@ -86,8 +86,9 @@ const ListViewer = () => {
       )}
     </div>
   ) : (
-    <div className="flex items-center justify-center w-auto h-full lg:ml-[448px]">
-      <span>There are no cocktails matching the search filter.</span>
+    <div className="flex flex-col lg:flex-row lg:gap-x-1.5 items-center justify-center w-auto h-full lg:ml-[448px]">
+      <div>There are no cocktails </div>
+      <div>matching the search filter.</div>
     </div>
   );
 };
