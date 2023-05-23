@@ -8,7 +8,7 @@ export const Providers = ({ children }: React.PropsWithChildren) => {
   const [client] = useState(
     new QueryClient({
       defaultOptions: {
-        queries: { staleTime: 5000, refetchOnWindowFocus: false },
+        queries: { staleTime: 500000, refetchOnWindowFocus: false },
       },
     })
   );
